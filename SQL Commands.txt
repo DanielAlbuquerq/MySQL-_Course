@@ -1,0 +1,171 @@
+Commands I Used:
+--------------------------------------
+how to know the current user in mysql: 
+SELECT CURRENT_USER();
+-------------------------------------
+to show list of databases: 
+SHOW DATABASES;
+-------------------------------------
+SELECT - extracts data from a database
+
+SELECT name, unit_price, unit_price * 1.1 AS 'new price'
+FROM sql_inventory.products;
+
+-------------------------------------
+UPDATE - updates data in a database.
+
+UPDATE `sql_store`.`customers` SET `state` = 'VA' WHERE (`customer_id` = '1');
+-------------------------------------
+DELETE - deletes data from a database
+INSERT INTO - inserts new data into a database
+CREATE DATABASE - creates a new database
+ALTER DATABASE - modifies a database
+CREATE TABLE - creates a new table
+ALTER TABLE - modifies a table
+DROP TABLE - deletes a table
+CREATE INDEX - creates an index (search key)
+DROP INDEX - deletes an index
+-------------------------------------------
+Remove duplicate data from 'state' column.
+SELECT DISTINCT state
+FROM customers
+-------------------------------------------
+USE sql_store;
+
+SELECT * FROM customers;
+
+SELECT
+    last_name,
+    first_name,
+    points,
+    (points + 10) * 100 AS 'discount factor'
+
+FROM customers
+ORDER BY first_name;
+----------------------------------------------
+
+SELECT * 
+FROM customers
+WHERE points BETWEEN 1000 AND 3000
+----------------------------------------------
+
+USE sql_store;
+SELECT *
+FROM Customers
+WHERE birth_date <= '1990-01-01' AND points <= 1000;
+
+-----------------------------------------------
+
+USE sql_store;
+SELECT *
+FROM order_items
+WHERE order_id = 6 AND unit_price * quantity > 30;
+
+-----------------------------------------------
+
+USE sql_store;
+SELECT *
+FROM customers
+WHERE state NOT IN ('VA', 'FL', 'GA');
+
+-----------------------------------------------
+
+SELECT * 
+FROM sql_store.products
+WHERE quantity_in_stock IN (49, 38, 72)
+
+-------------------------------------------------
+
+SELECT *
+FROM sql_store.customers
+WHERE points BETWEEN 1000 AND 3000;
+
+-------------------------------------------------
+
+SELECT *
+FROM customers
+WHERE birth_date BETWEEN '1990-01-01' AND '2000-01-01'
+
+-------------------------------------------------
+
+SELECT *
+FROM sql_store.customers
+WHERE address LIKE '%trail%' OR 
+      address LIKE '%avenue%'
+
+--------------------------------------------------
+
+The REGEXP operator is used to represent multipe search
+SELECT *
+FROM sql_store.customers
+WHERE last_name REGEXP 'FIELD|mac|rose'
+
+---------------------------------------------------
+
+SELECT * 
+FROM sql_store.customers
+WHERE phone IS NULL
+
+--------------------------------------------------- 
+
+SELECT *, quantity * unit_price AS total_price
+FROM sql_store.order_items
+WHERE order_id = 2
+ORDER BY total_price DESC
+
+---------------------------------------------------
+
+SELECT * 
+FROM orders o 
+JOIN customers c 
+	ON o.customer_id = c.customer_id
+JOIN order_statuses os 
+	ON o.status = os.order_status_id 
+ORDER BY order_id DESC 
+----------------------------------------------------
+
+USE sql_store;
+
+SELECT 
+	o.order_date,
+    o.order_id, 
+    c.first_name AS customer,
+    status,
+    sh.name
+FROM orders o
+JOIN customers c
+	ON o.customer_id = c.customer_id
+LEFT JOIN shippers sh
+	ON o.shipper_id = sh.shipper_id
+ORDER BY o.order_id DESC
+
+---------------------------------------------------
+
+USE sql_store;
+
+INSERT INTO customers (
+	last_name,
+	first_name,
+    birth_date,
+    address,
+    city,
+    state)
+
+VALUES (
+    'John',
+    'Smith',
+    '1990-01-01',
+    'address',
+    'city',
+    'CA')
+	
+--------------------------------------------------
+
+INSERT INTO products (name, quantity_in_stock, unit_price)
+VALUES ('product1',10,1.95),
+       ('product2',12,1.00),
+       ('product3',20,1.94)
+
+-------------------------------------------------
+
+
